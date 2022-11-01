@@ -70,13 +70,13 @@ config:
 errors: No known data errors
 ```
 
-# Step 3: Insert data into the pool
+# Step 3: Insert data into ZFS
 
 In this guide, we will use a [sample dataset](https://github.com/lanl-future-campaign/c2-vpic-sample-dataset) generated from a real-world scientific application called [VPIC](https://github.com/lanl/vpic) which models kinetic plasmas in 3D space and writes particle state to storage for subsequnet analytics.
 
-To insert this dataset into the zpool that we just created, we first download it to a temporary location on the zfs host. We then run a converter to convert the data from its original binary format to c2's custom RAID-aligned columnar parquet format (required for in-drive data analytics) and insert that into the zpool.
+To insert this dataset into zfs, we first download it to a temporary location on the zfs host. We then run a converter to convert the data from its original binary format to c2's custom RAID-aligned parquet format (required for in-drive data analytics) and insert that into zfs.
 
-As data streams to the zpool, zfs will raid the data and distribute the data and parity chunks across the 5 kinetic drives for storage. C2's custom RAID-aligned parquet format ensures that each drive will always see a complete data record (in our case a full particle) despite the raid process which makes in-drive analytics possible (see our [presentation slides](c2-sdc22-slides) for details on c2's custom data format).
+As data is written to zfs, zfs will raid the data and distribute the data and parity chunks across the 5 kinetic drives for storage. C2's custom RAID-aligned parquet format ensures that each drive will always see a complete data record (in our case a full particle) despite the raid process which makes in-drive analytics possible (see our [presentation slides](c2-sdc22-slides) for details on c2's custom data format).
 
 To download the sample dataset to the zfs host:
 
@@ -85,7 +85,7 @@ cd /tmp
 git clone https://github.com/lanl-future-campaign/c2-vpic-sample-dataset.git
 ```
 
-To convert the data into the right format and insert it into zfs, we first build the converter program available at https://github.com/lanl-future-campaign/c2-parquet-writer. We then do the following:
+To convert the data into the right format and insert it into zfs, we first build the converter program available at https://github.com/lanl-future-campaign/c2-parquet-writer. We then run the following:
 
 ```bash
 sudo c2-parquet-writer/build/writer -j 8 /tmp/c2-vpic-sample-dataset/particles /mypool
