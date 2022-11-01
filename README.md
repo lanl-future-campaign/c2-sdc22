@@ -72,7 +72,7 @@ errors: No known data errors
 
 # Step 3: Insert data into the pool
 
-We first download a [sample dataset](https://github.com/lanl-future-campaign/c2-vpic-sample-dataset) onto the zfs host. We then run a converter to convert the data from its original format to c2's custom RAID-aligned columnar parquet format required for in-drive analytics (see our [presentation slides](c2-sdc22-slides) for details) and insert it into the zpool that we just created.
+We first download a [sample dataset](https://github.com/lanl-future-campaign/c2-vpic-sample-dataset) to a temporary location on the zfs host. We then run a converter to convert the data from its original format to c2's custom RAID-aligned columnar parquet format (required for in-drive analytics) and insert it into the zpool that we just created (see our [presentation slides](c2-sdc22-slides) for details on c2's custom data format).
 
 To download the sample dataset:
 
@@ -85,6 +85,61 @@ To convert the data into the right format, we first build the converter program 
 
 ```bash
 sudo c2-parquet-writer/build/writer -j 8 /tmp/c2-vpic-sample-dataset/particles /mypool
+```
+
+Here's a sample output. The entire process should finish in just a few seconds.
+
+```
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.336.0.bin [TO] /mypool/eparticle.336.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.360.0.bin [TO] /mypool/eparticle.360.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.432.0.bin [TO] /mypool/eparticle.432.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.456.0.bin [TO] /mypool/eparticle.456.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.264.0.bin [TO] /mypool/eparticle.264.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.408.0.bin [TO] /mypool/eparticle.408.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.48.0.bin [TO] /mypool/eparticle.48.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.480.0.bin [TO] /mypool/eparticle.480.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.240.0.bin [TO] /mypool/eparticle.240.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.384.0.bin [TO] /mypool/eparticle.384.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.288.0.bin [TO] /mypool/eparticle.288.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.312.0.bin [TO] /mypool/eparticle.312.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.0.0.bin [TO] /mypool/iparticle.0.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.120.0.bin [TO] /mypool/iparticle.120.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.96.0.bin [TO] /mypool/eparticle.96.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.72.0.bin [TO] /mypool/eparticle.72.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.240.0.bin [TO] /mypool/iparticle.240.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.288.0.bin [TO] /mypool/iparticle.288.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.312.0.bin [TO] /mypool/iparticle.312.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.264.0.bin [TO] /mypool/iparticle.264.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.144.0.bin [TO] /mypool/iparticle.144.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.168.0.bin [TO] /mypool/iparticle.168.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.192.0.bin [TO] /mypool/iparticle.192.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.216.0.bin [TO] /mypool/iparticle.216.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.360.0.bin [TO] /mypool/iparticle.360.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.24.0.bin [TO] /mypool/iparticle.24.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.432.0.bin [TO] /mypool/iparticle.432.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.408.0.bin [TO] /mypool/iparticle.408.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.96.0.bin [TO] /mypool/iparticle.96.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.480.0.bin [TO] /mypool/iparticle.480.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.48.0.bin [TO] /mypool/iparticle.48.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.384.0.bin [TO] /mypool/iparticle.384.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.120.0.bin [TO] /mypool/eparticle.120.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.336.0.bin [TO] /mypool/iparticle.336.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.144.0.bin [TO] /mypool/eparticle.144.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.456.0.bin [TO] /mypool/iparticle.456.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/iparticle.72.0.bin [TO] /mypool/iparticle.72.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.0.0.bin [TO] /mypool/eparticle.0.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.168.0.bin [TO] /mypool/eparticle.168.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.216.0.bin [TO] /mypool/eparticle.216.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.192.0.bin [TO] /mypool/eparticle.192.0.bin.parquet [WHERE] 131072 particles were processed
+[FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.24.0.bin [TO] /mypool/eparticle.24.0.bin.parquet [WHERE] 131072 particles were processed
+Done
+```
+
+The resulting dataset should be exactly 168MB in size.
+
+```bash
+# sudo du -sh /mypool
+168M	/mypool
 ```
 
 # Reference
