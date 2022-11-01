@@ -78,7 +78,7 @@ To insert this dataset into zfs, we first download it to a temporary location on
 
 As data is written to zfs, zfs will raid the data and distribute the data and parity chunks across the 5 kinetic drives for storage. C2's custom RAID-aligned parquet format ensures that each drive will always see a complete data record (in our case a full particle) despite the raid process which makes in-drive analytics possible (see our [presentation slides](c2-sdc22-slides) for details on c2's custom data format).
 
-To download the sample dataset to the zfs host:
+To download the sample dataset to the zfs host, we do:
 
 ```bash
 cd /tmp
@@ -107,6 +107,10 @@ Note also that the resulting dataset should be exactly 168MB in size.
 # sudo du -sh /mypool
 168M	/mypool
 ```
+
+# Step 4: Transform filenames to low-level disk LBAs
+
+TODO
 
 # Reference
 
