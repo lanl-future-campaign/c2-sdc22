@@ -39,11 +39,11 @@ sudo dnf install -y kernel-devel
 sudo dnf install -y zfs
 ```
 
-# Step 2: Create the ZPOOL
+# Step 2: Create a zpool
 
 To create a zpool, we first load the zfs kernel module. We then configure zfs to enable large zfs record sizes that are beyond the limit set by zfs by default (we need 4MB records while the default maximum is just 1MB). After that, we will be able to create our zpool using the 5 Kinetic drives that we have.
 
-In this guide, we will name our zpool `mypool`. We will use `-f` to force pool creation even if there was a pool previously created on the drives and `-O recordsize=4M` to apply the right record size for our pool.
+In this guide, we will name our zpool `mypool`. We will use `-f` to force pool creation (even if there was a pool previously created on the drives) and `-O recordsize=4M` to apply the right record size (which is 4MB) for our pool.
 
 ```bash
 sudo modprobe zfs
@@ -68,6 +68,23 @@ config:
 	    nvme5n1    ONLINE       0     0     0
 
 errors: No known data errors
+```
+
+# Step 3: Insert data into the pool
+
+We first download a [sample dataset](https://github.com/lanl-future-campaign/c2-vpic-sample-dataset) onto the zfs host. We then run a converter to convert the data from its original format to c2's custom RAID-aligned columnar parquet format required for in-drive analytics (see our [presentation slides](c2-sdc22-slides) for details) and insert it into the zpool that we just created.
+
+To download the sample dataset:
+
+```bash
+cd /tmp
+git clone https://github.com/lanl-future-campaign/c2-vpic-sample-dataset.git
+```
+
+To convert the data into the right format, we first build the converter program available at https://github.com/lanl-future-campaign/c2-parquet-writer. We then do the following:
+
+```bash
+sudo c2-parquet-writer/build/writer -j 8 /tmp/c2-vpic-sample-dataset/particles /mypool
 ```
 
 # Reference
