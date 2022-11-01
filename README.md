@@ -26,11 +26,11 @@ C2 is developed under U.S. Government contract 89233218CNA000001 for LANL, which
 
 # Platform
 
-We focus on CentOS 8 and ZFS 2.1.5. We assume that there is one ZFS host and 5 Kinetic drives for a 4+1 raidz pool. We further assume that each Kinetic drive acts as an NVMeOF target and that the 5 drives are presented as /dev/nvme1n1, /dev/nvme2n1, ..., /dev/nvme5n1 on the ZFS host.
+In this guide, we will focus on CentOS 8 and ZFS 2.1.5. We assume that there is one ZFS host and 5 Kinetic drives for a 4+1 raidz pool. The 5 drives each act as an NVMeOF target. The host acts as an NVMeOF initiator and names the drives as /dev/nvme1n1, /dev/nvme2n1, ..., and /dev/nvme5n1.
 
 # Step 1: Install ZFS
 
-One may use the following to install zfs on centos 8. More complete information can be found at https://openzfs.github.io/openzfs-docs/Getting%20Started/RHEL-based%20distro/index.html.
+We can use the following commands to install zfs on centos 8.
 
 ```bash
 sudo dnf install https://zfsonlinux.org/epel/zfs-release-2-2$(rpm --eval "%{dist}").noarch.rpm
@@ -41,9 +41,9 @@ sudo dnf install -y zfs
 
 # Step 2: Create the ZPOOL
 
-To create a zpool, we first load the zfs kernel module. We then configure zfs to enable large zfs record sizes that are beyond the limit set by zfs by default (we need 4MB records while the default maximum is just 1MB). After that, we can then create our zpool on top of the 5 Kinetic drives that we have.
+To create a zpool, we first load the zfs kernel module. We then configure zfs to enable large zfs record sizes that are beyond the limit set by zfs by default (we need 4MB records while the default maximum is just 1MB). After that, we will be able to create our zpool using the 5 Kinetic drives that we have.
 
-In this guide, we will name our zpool `mypool`. We will use `-f` to force pool creation even if there was a pool previously created on the 5 drives. We will then use `-O recordsize=4M` to apply the right record size for our pool.
+In this guide, we will name our zpool `mypool`. We will use `-f` to force pool creation even if there was a pool previously created on the drives and `-O recordsize=4M` to apply the right record size for our pool.
 
 ```bash
 sudo modprobe zfs
@@ -53,3 +53,23 @@ sudo zpool create -f -O recordsize=4M mypool raidz1 /dev/nvme1n1 /dev/nvme2n1 /d
 
 Once a pool is created, we can use `sudo zpool status` to check its status and view its member drives.
 
+```bash
+  pool: mypool
+ state: ONLINE
+config:
+
+	NAME           STATE     READ WRITE CKSUM
+	mypool         ONLINE       0     0     0
+	  raidz1-0     ONLINE       0     0     0
+	    nvme1n1    ONLINE       0     0     0
+	    nvme2n1    ONLINE       0     0     0
+	    nvme3n1    ONLINE       0     0     0
+	    nvme4n1    ONLINE       0     0     0
+	    nvme5n1    ONLINE       0     0     0
+
+errors: No known data errors
+```
+
+# Reference
+
+[1] https://openzfs.github.io/openzfs-docs/Getting%20Started/RHEL-based%20distro/index.html
