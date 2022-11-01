@@ -87,7 +87,7 @@ To convert the data into the right format, we first build the converter program 
 sudo c2-parquet-writer/build/writer -j 8 /tmp/c2-vpic-sample-dataset/particles /mypool
 ```
 
-The entire process should finish in just a few seconds. Here's a sample output (shortened to reduce space).
+The entire conversion process should finish in just a few seconds. Here's a sample output (shortened to reduce space).
 
 ```
 [FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.336.0.bin [TO] /mypool/eparticle.336.0.bin.parquet [WHERE] 131072 particles were processed
@@ -97,7 +97,7 @@ The entire process should finish in just a few seconds. Here's a sample output (
 Done
 ```
 
-Also, the resulting dataset should be exactly 168MB in size.
+The resulting dataset should be exactly 168MB in size.
 
 ```bash
 # sudo du -sh /mypool
