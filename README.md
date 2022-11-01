@@ -72,7 +72,11 @@ errors: No known data errors
 
 # Step 3: Insert data into the pool
 
-We first download a [sample dataset](https://github.com/lanl-future-campaign/c2-vpic-sample-dataset) into a temporary location on the zfs host. We then run a converter to convert the data from its original format to c2's custom RAID-aligned columnar parquet format (required for in-drive analytics) and insert it into the zpool that we just created (see our [presentation slides](c2-sdc22-slides) for details on c2's custom data format).
+In this guide, we will use a [sample dataset](https://github.com/lanl-future-campaign/c2-vpic-sample-dataset) generated from a real-world scientific application called [VPIC](https://github.com/lanl/vpic) which models kinetic plasmas in 3D space and writes particle state to storage for subsequnet analytics.
+
+We first download the sample particle dataset into a temporary location on the zfs host. We then run a converter to convert the data from its original binary format to c2's custom RAID-aligned columnar parquet format (required for in-drive data analytics) and insert it into the zpool that we just created.
+
+As data is written to the zpool, zfs will raid the data and distribute the data and parity chunks across the 5 kinetic drives for storage. C2's custom RAID-aligned parquet format ensures that each drive always sees an entire data record (in our case a full particle) thus making in-drive analytics possible (see our [presentation slides](c2-sdc22-slides) for details on c2's custom data format).
 
 To download the sample dataset:
 
@@ -87,7 +91,7 @@ To convert the data into the right format, we first build the converter program 
 sudo c2-parquet-writer/build/writer -j 8 /tmp/c2-vpic-sample-dataset/particles /mypool
 ```
 
-The entire conversion process should finish in just a few seconds. Here's a sample output (shortened to reduce space).
+The entire conversion process should finish in just a few seconds. Here's a sample output of it (shortened to reduce space).
 
 ```
 [FROM] /tmp/c2-vpic-sample-dataset/particles/eparticle.336.0.bin [TO] /mypool/eparticle.336.0.bin.parquet [WHERE] 131072 particles were processed
@@ -97,7 +101,7 @@ The entire conversion process should finish in just a few seconds. Here's a samp
 Done
 ```
 
-The resulting dataset should be exactly 168MB in size.
+Note also that the resulting dataset should be exactly 168MB in size.
 
 ```bash
 # sudo du -sh /mypool
