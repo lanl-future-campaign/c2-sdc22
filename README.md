@@ -20,7 +20,7 @@ XX    XX           XX XX          XX XX           XX       XX XX          XX    
 XXXX XX            XX XX          XX XXXXXXXXXX   XX       XX XX            XXXXXX
 ```
 
-C2 is Los Alamos National Laboratory (LANL)'s next-generation campaign storage prototype built upon Seagate's Kinetic Active Disk technology to enable direct query processing in disk drives reducing data movement speeding up large-scale scientific data analytics on the lab's future computing platforms. Early results of C2 were presented at [2022 SNIA Storage Developer Conference (SDC22)](https://storagedeveloper.org/) taking place September 12-15, 2022 in Fremont, CA. This guide provides step-by-step instructions for reproducing C2's results in SDC22. Please see our [presentation slides](c2-sdc22-slides.pdf) for more information regarding this research project.
+C2 is Los Alamos National Laboratory (LANL)'s next-generation campaign storage prototype built upon Seagate's Kinetic Active Disk technology to enable direct query processing in disk drives reducing data movement speeding up large-scale scientific data analytics on the lab's future computing platforms. Early results of C2 were presented at [2022 SNIA Storage Developer Conference (SDC22)](https://storagedeveloper.org/) taking place September 12-15, 2022 in Fremont, CA. This guide provides step-by-step instructions for reproducing C2's results in SDC22. Please see our [presentation slides](c2-sdc22-slides.pdf) for more information regarding this research prototype.
 
 C2 is developed under U.S. Government contract 89233218CNA000001 for LANL, which is operated by Triad National Security, LLC for the U.S. Department of Energy/National Nuclear Security Administration.
 
