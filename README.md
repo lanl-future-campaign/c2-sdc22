@@ -116,7 +116,7 @@ First, we build C2's custom zfs tool named libzdb2 available at https://github.c
 sudo c2-libzdb2/build/src/zdb mypool .
 ````
 
-Libzdb2 expects two parameters. One is the name of the target zpool (mypool in our case). The other is the relative path of the directory that stores the data within the zpool (`.` in our case which is just the root directory of the zpool).
+Libzdb2 expects two parameters. One is the name of the target zpool (mypool in our case). The other is the relative path of the directory that stores the data within the zpool (`.` in our case which refers to the root directory of the zpool).
 
 The transformation process should finish in just about 1 second. Here's a sample output of it.
 
