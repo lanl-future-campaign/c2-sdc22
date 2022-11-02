@@ -110,7 +110,7 @@ Note also that the resulting dataset should be exactly 168MB in size.
 
 # Step 4: Transform ZFS filenames to low-level disk LBAs
 
-First, we build C2's custom zfs tool named libzdb2 available at https://github.com/lanl-future-campaign/c2-libzdb2/tree/sdc22. We then execute the following to obtain the low-level disk LBAs of our parquet dataset. When building libzdb2, please make sure to set `CMAKE_BUILD_TYPE` to `Release`.
+First, we build C2's custom zfs tool named libzdb2 available at https://github.com/lanl-future-campaign/c2-libzdb2/tree/sdc22. We then execute the following to obtain the low-level disk LBAs of our parquet dataset. When building libzdb2, please make sure to use the `sdc22` branch and set `CMAKE_BUILD_TYPE` to `Release`.
 
 ```bash
 sudo c2-libzdb2/build/src/zdb mypool .
@@ -130,7 +130,9 @@ Total: 1.556 s
 Done
 ```
 
-Here, each row shows the location of a particular block of data on one of the 5 kinetic drives that stores our data. Each row is a tuple of 3 elements. The first element is the index of the drive. 0 refers to the first drive which is /dev/nvme1n1. 4 refers to the last drive which is /dev/nvme5n1. The second element is the offset of the block on the drive. The last element is the size of the block, which is always 1MB due to c2's RAID-alignment control.
+Here, each '#'-labeled line shows the location of a particular data block on one of the 5 kinetic drives that stores our data. Each row is a tuple of 3 elements. The first element is the index of the drive. 0 refers to the first drive which is /dev/nvme1n1. 4 refers to the last drive which is /dev/nvme5n1. The second element is the offset of the block on the drive. The last element is the size of the block, which is always 1MB due to c2's RAID-alignment control.
+
+Because our dataset is 168MB in size, this output should contain exactly 168 lines of block locations with each pointing to 1MB of data.
 
 # Reference
 
