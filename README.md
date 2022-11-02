@@ -108,9 +108,29 @@ Note also that the resulting dataset should be exactly 168MB in size.
 168M	/mypool
 ```
 
-# Step 4: Transform filenames to low-level disk LBAs
+# Step 4: Transform ZFS filenames to low-level disk LBAs
 
-TODO
+First, we build C2's custom zfs tool named libzdb2 available at https://github.com/lanl-future-campaign/c2-libzdb2/tree/sdc22. We then execute the following to obtain the low-level disk LBAs of our parquet dataset. When building libzdb2, please make sure to set `CMAKE_BUILD_TYPE` to `Release`.
+
+```bash
+sudo c2-libzdb2/build/src/zdb mypool .
+````
+
+The transformation process should finish in just about 1 second. Here's a sample output of it.
+
+```
+#4,903985664,1048576
+#0,903986176,1048576
+#1,903986176,1048576
+#2,903986176,1048576
+#3,895314432,1048576
+...
+ZDB query time: 0.226 s
+Total: 1.556 s
+Done
+```
+
+Here, each row shows the location of a particular block of data on one of the 5 kinetic drives that stores our data. Each row is a tuple of 3 elements. The first element is the index of the drive. 0 refers to the first drive which is /dev/nvme1n1. 4 refers to the last drive which is /dev/nvme5n1. The second element is the offset of the block on the drive. The last element is the size of the block, which is always 1MB due to c2's RAID-alignment control.
 
 # Reference
 
