@@ -132,7 +132,7 @@ Done
 
 Here, each '#'-labeled line shows the location of a particular data block on one of the 5 kinetic drives that stores our data. Each row is a tuple of 3 elements. The first element is the index of the drive. 0 refers to the first drive which is /dev/nvme1n1. 4 refers to the last drive which is /dev/nvme5n1. The second element is the offset of the block on the drive. The last element is the size of the block, which is always 1MB due to c2's RAID-alignment control.
 
-Because our dataset is 168MB in size, this output should contain exactly 168 lines of block locations with each pointing to 1MB of data.
+Because our dataset is 168MB in size, this output should contain exactly 168 lines of data locations. Each points to a 1MB segment of our dataset. In the next step, we will use this location data to inform our 5 kinetic drives to perform in-drive operations.
 
 # Reference
 
