@@ -136,6 +136,16 @@ Here, each '#'-labeled line shows the location of a particular data block on one
 
 Because our dataset is 168MB in size, this output should contain exactly 168 lines of data locations. Each points to a 1MB data chunk of our dataset on storage. Libzbd2 only prints data chunks. Parity chunks are not printed. In the next step, we will use this location data to inform our 5 kinetic drives to perform in-drive operations.
 
+# Step 5: Prepare For In-Drive Analytics
+
+Now that we have the low-level LBAs for our data reported by zfs, the next step is to convert it to something that each kinetic disk can use directly. This includes separating LBAs for different disks to different files, specifying the disk partition (/dev/sda4) that was exposed to zfs to store the data, and offseting each LBA by 1MB to account for the disk partition table occupying space at the beginnig of that parition.
+
+Libzdb2 carries a small post-processing program that can accomplish this very task. Just compile and run it.
+
+```
+c2-libzdb2/build/src/zdb_pp 5 mypool
+```
+
 # Reference
 
 [1] https://openzfs.github.io/openzfs-docs/Getting%20Started/RHEL-based%20distro/index.html
