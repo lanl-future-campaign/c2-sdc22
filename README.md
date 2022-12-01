@@ -146,7 +146,7 @@ Libzdb2 carries a small post-processing program (https://github.com/lanl-future-
 c2-libzdb2/build/src/zdb_pp 5 mypool
 ```
 
-The result will be 5 separate files with address information that a reader program can directly use to read data from each kinetic disk.
+The result will be 5 separate files with address information that a reader program running on a kinetic disk can use to read data from that physical drive for in-drive operations.
 
 # Reference
 
