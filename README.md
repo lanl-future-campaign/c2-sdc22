@@ -140,7 +140,7 @@ Because our dataset is 168MB in size, this output should contain exactly 168 lin
 
 Now that we have the low-level LBAs for our data reported by zfs, the next step is to convert it to something that each kinetic disk can use directly. This includes separating LBAs for different disks to different files, specifying the disk partition (/dev/sda4) that was exposed to zfs to store the data, and offseting each LBA by 1MB to account for the disk partition table occupying space at the beginnig of that parition.
 
-Libzdb2 carries a small post-processing program that can accomplish this very task. Just compile and run it.
+Libzdb2 carries a small post-processing program (https://github.com/lanl-future-campaign/c2-libzdb2/blob/sdc22/src/libzdb_pp.cc) that can accomplish this very task. It is compiled along with libzdb and can be run as follows.
 
 ```
 c2-libzdb2/build/src/zdb_pp 5 mypool
