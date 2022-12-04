@@ -154,6 +154,10 @@ It is also possible to combine steps 4 and 5 into a single step using a shell pi
 sudo c2-libzdb2/build/src/zdb mypool . | c2-libzdb2/build/src/zdb_pp 5 mypool
 ```
 
+# Step 6: Running In-Drive Analytics
+
+TODO
+
 # Reference
 
 [1] https://openzfs.github.io/openzfs-docs/Getting%20Started/RHEL-based%20distro/index.html
