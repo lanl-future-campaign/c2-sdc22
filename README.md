@@ -142,7 +142,7 @@ Now that we have the low-level LBAs for our data reported by zfs, the next step 
 
 Libzdb2 carries a small post-processing program (https://github.com/lanl-future-campaign/c2-libzdb2/blob/sdc22/src/libzdb_pp.cc) that can accomplish this very task. It is compiled along with libzdb and can be run as follows.
 
-```
+```bash
 cat LBA.txt | c2-libzdb2/build/src/zdb_pp 5 mypool
 ```
 
@@ -150,7 +150,7 @@ The result will be 5 separate files (mypool_1, mypool_2, ..., mypool_5) with add
 
 It is also possible to combine steps 4 and 5 into a single step using a shell pipe.
 
-```
+```bash
 sudo c2-libzdb2/build/src/zdb mypool . | c2-libzdb2/build/src/zdb_pp 5 mypool
 ```
 
