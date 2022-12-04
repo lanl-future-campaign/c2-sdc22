@@ -113,7 +113,7 @@ Note also that the resulting dataset should be exactly 168MB in size.
 First, we build C2's custom zfs tool named libzdb2 available at https://github.com/lanl-future-campaign/c2-libzdb2/tree/sdc22. We then execute the following to obtain the low-level disk LBAs of our parquet dataset. When building libzdb2, please make sure to use the `sdc22` branch and set `CMAKE_BUILD_TYPE` to `Release`.
 
 ```bash
-sudo c2-libzdb2/build/src/zdb mypool .
+sudo c2-libzdb2/build/src/zdb mypool . | tee LBA.txt
 ````
 
 Libzdb2 expects two parameters. One is the name of the target zpool (mypool in our case). The other is the relative path of the directory that stores the data within the zpool (`.` in our case which refers to the root directory of the zpool).
@@ -143,10 +143,16 @@ Now that we have the low-level LBAs for our data reported by zfs, the next step 
 Libzdb2 carries a small post-processing program (https://github.com/lanl-future-campaign/c2-libzdb2/blob/sdc22/src/libzdb_pp.cc) that can accomplish this very task. It is compiled along with libzdb and can be run as follows.
 
 ```
-c2-libzdb2/build/src/zdb_pp 5 mypool
+cat LBA.txt | c2-libzdb2/build/src/zdb_pp 5 mypool
 ```
 
 The result will be 5 separate files (mypool_1, mypool_2, ..., mypool_5) with address information that a reader program running on a kinetic disk can use to read data from that disk for in-drive operations.
+
+It is also possible to combine steps 4 and 5 into a single step using a shell pipe.
+
+```
+sudo c2-libzdb2/build/src/zdb mypool . | c2-libzdb2/build/src/zdb_pp 5 mypool
+```
 
 # Reference
 
